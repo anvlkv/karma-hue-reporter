@@ -1,6 +1,7 @@
 var colors = require('colors');
+var HTTPRequest = require('HTTPRequest');
 
-var SpecReporter = function (baseReporterDecorator, formatError, config) {
+var HueReporter = function (baseReporterDecorator, formatError, config) {
   baseReporterDecorator(this);
 
   var platform = process ? process.platform : 'unknown';
@@ -38,6 +39,8 @@ var SpecReporter = function (baseReporterDecorator, formatError, config) {
         .join('\n') + '\n');
 
     if (browsers.length >= 1 && !results.disconnected && !results.error) {
+          
+
       if (!results.failed) {
         this.write(this.TOTAL_SUCCESS, results.success);
       } else {
@@ -47,10 +50,31 @@ var SpecReporter = function (baseReporterDecorator, formatError, config) {
         }
       }
     }
+///api/Ba8MqTZlNf8ywuWIfnqKxEsxfdBxhrN8eVoJES6h/lights/4/state
+    console.log(results);
+
+    if(results.failed > results.success){
+      HTTPRequest.put('http://192.168.1.10/api/Ba8MqTZlNf8ywuWIfnqKxEsxfdBxhrN8eVoJES6h/lights/4/state', '{"on":true, "hue":65280}', (status, headers, response)=>{
+        console.log(status, response);
+      });
+    }
+    else if(results.failed < results.success && results.failed){
+      HTTPRequest.put('http://192.168.1.10/api/Ba8MqTZlNf8ywuWIfnqKxEsxfdBxhrN8eVoJES6h/lights/4/state', '{"on":true, "hue":6375}', (status, headers, response)=>{
+        console.log(status, response);
+      });
+    }
+    else{
+      HTTPRequest.put('http://192.168.1.10/api/Ba8MqTZlNf8ywuWIfnqKxEsxfdBxhrN8eVoJES6h/lights/4/state', '{"on":true, "hue":25500}', (status, headers, response)=>{
+        console.log(status, response);
+      });
+    }
+
+
 
     this.write('\n');
     this.failures = [];
     this.currentSuite = [];
+
   };
 
   this.logFinalErrors = function (errors) {
@@ -152,8 +176,8 @@ var SpecReporter = function (baseReporterDecorator, formatError, config) {
   this.showSpecTiming = reporterCfg.showSpecTiming || false;
 };
 
-SpecReporter.$inject = ['baseReporterDecorator', 'formatError', 'config'];
+HueReporter.$inject = ['baseReporterDecorator', 'formatError', 'config'];
 
 module.exports = {
-  'reporter:spec': ['type', SpecReporter]
+  'reporter:hue': ['type', HueReporter]
 };

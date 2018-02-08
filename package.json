@@ -1,7 +1,7 @@
 {
-  "name": "karma-spec-reporter",
-  "version": "0.0.32",
-  "description": "A Karma plugin. Report all spec-results to console (like mocha's spec reporter).",
+  "name": "karma-hue-reporter",
+  "version": "0.0.1",
+  "description": "A Karma plugin. Change phillips hue light setting according to tests result.",
   "main": "index.js",
   "scripts": {
     "test": "mocha-runner --reporter spec test/**/*.spec.js",
@@ -11,18 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mlex/karma-spec-reporter.git"
+    "url": "git://github.com/anvlkv/karma-hue-reporter.git"
   },
   "keywords": [
     "karma-plugin",
     "reporter"
   ],
-  "author": "Michael Lex <michael.lex@codecentric.de>",
+  "author": "a.nvlkv <a.nvlkv@gmail.com>",
   "dependencies": {
+    "HTTPRequest": "^0.1.1",
     "colors": "^1.1.2"
   },
   "peerDependencies": {
-    "karma": ">=0.9"
+    "karma": "~1.4.1"
   },
   "license": "MIT",
   "devDependencies": {
