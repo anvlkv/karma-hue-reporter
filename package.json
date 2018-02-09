@@ -1,7 +1,7 @@
 {
   "name": "karma-hue-reporter",
-  "version": "0.0.2",
-  "description": "A Karma plugin. Change phillips hue light setting according to tests result.",
+  "version": "0.0.3",
+  "description": "A Karma plugin. Change Philips Hue light setting according to tests result.",
   "main": "index.js",
   "scripts": {
     "test": "mocha-runner --reporter spec test/**/*.spec.js",
