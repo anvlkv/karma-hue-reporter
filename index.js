@@ -12,7 +12,10 @@ var HueReporter = function (baseReporterDecorator, formatError, config) {
     var url = `http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/state`
     //0 - red 25500 - green
     var totalTests = results.failed + results.success;
-    var hue = Math.round((25500 / totalTests) * results.success) + (results.failed ? -12000 : 0);
+    var successRatio = (results.success / totalTests) * 100;
+
+    var hue = Math.round((25500 / totalTests) * results.success
+      + (results.failed ? -(90 * successRatio) : 0));
 
     hue < 0 ? hue = 0 : hue = hue;
 
