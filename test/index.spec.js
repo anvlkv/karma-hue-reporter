@@ -56,6 +56,11 @@ describe('HueReporter', function () {
         newHueReporter.onRunComplete([], {failed: 1, success: 0});
         newHueReporter.HTTPRequest.put.should.have.been.calledWith(`http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/state`, '{"on":true, "hue":0}');
       });
+
+      it('shoul reduce hue considerably when at least some are failing', function () {
+        newHueReporter.onRunComplete([], {failed: 1, success: 10});
+        newHueReporter.HTTPRequest.put.should.have.been.calledWith(`http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/state`, '{"on":true, "hue":11182}');
+      });
     });
   });
 });

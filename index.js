@@ -5,14 +5,16 @@ var HueReporter = function (baseReporterDecorator, formatError, config) {
   this.HTTPRequest = require('HTTPRequest');
 
   if(!config){
-    this.writeCommonMsg(('please configure your hue report in karma.conf.js hueReporter').red);
+    this.writeCommonMsg(('Please configure your hue report in karma.conf.js hueReporter').red);
   }
 
   this.onRunComplete = function (browsers, results) {
     var url = `http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/state`
     //0 - red 25500 - green
     var totalTests = results.failed + results.success;
-    var hue = Math.round((25500 / totalTests) * results.success);
+    var hue = Math.round((25500 / totalTests) * results.success) + (results.failed ? -12000 : 0);
+
+    hue < 0 ? hue = 0 : hue = hue;
 
     this.HTTPRequest.put(url, `{"on":true, "hue":${hue}}`, (status, headers, response) => {
         if (status != 200 || response.error){

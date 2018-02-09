@@ -16,6 +16,11 @@ Then add ``'hue'`` to reporters in karma.conf.js, e.g.
 reporters: ['hue']
 ```
 
+
+## Philips Hue
+Please refer to [Philips Hue API docs](https://www.developers.meethue.com/philips-hue-api) to create your user, grant access to hue and discover your lights ids. 
+
+
 ## Configuration
 
 ``` js
