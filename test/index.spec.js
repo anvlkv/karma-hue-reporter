@@ -61,6 +61,21 @@ describe('HueReporter', function () {
         newHueReporter.onRunComplete([], {failed: 1, success: 10});
         newHueReporter.HTTPRequest.put.should.have.been.calledWith(`http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/state`, '{"on":true, "hue":15000}');
       });
+
+      it('should stop trying after 3rd failure', function () {
+        newHueReporter.HTTPRequest = {put:sinon.spy(()=>{throw 'dkjfs'})};
+
+        newHueReporter.onRunComplete([], {failed: 1, success: 10});
+        newHueReporter.onRunComplete([], {failed: 1, success: 10});
+        newHueReporter.onRunComplete([], {failed: 1, success: 10});
+        newHueReporter.onRunComplete([], {failed: 1, success: 10});
+        newHueReporter.onRunComplete([], {failed: 1, success: 10});
+        newHueReporter.onRunComplete([], {failed: 1, success: 10});
+        newHueReporter.onRunComplete([], {failed: 1, success: 10});
+        
+
+        newHueReporter.HTTPRequest.put.callCount.should.be.equal(3);
+      });
     });
   });
 });

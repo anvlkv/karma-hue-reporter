@@ -8,8 +8,15 @@ var HueReporter = function (baseReporterDecorator, formatError, config) {
     this.writeCommonMsg(('Please configure your hue report in karma.conf.js hueReporter').red);
   }
 
+  var failCount = 0;
+
+
   this.onRunComplete = function (browsers, results) {
-    var url = `http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/state`
+    if(failCount >= 3){
+      return;
+    }
+
+    var url = `http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/${config.hueReporter.applyTo == 'lights' ? 'state' : 'actions'}`
     //0 - red 25500 - green
     var totalTests = results.failed + results.success;
     var successRatio = (results.success / totalTests) * 100;
@@ -19,12 +26,17 @@ var HueReporter = function (baseReporterDecorator, formatError, config) {
 
     hue < 0 ? hue = 0 : hue = hue;
 
-    this.HTTPRequest.put(url, `{"on":true, "hue":${hue}}`, (status, headers, response) => {
-        if (status != 200 || response.error){
-          this.writeCommonMsg(('Can not set hue... check your config').red);
-          delete this.onRunComplete;
-        }
-    });
+    try{
+      this.HTTPRequest.put(url, `{"on":true, "hue":${hue}}`, (status, headers, response) => {
+          if (status != 200 || response.error){
+            this.writeCommonMsg(('Can not set hue... check your config').red);
+          }
+      });
+    }
+    catch (e){
+      failCount ++;
+    }
+    
   };
 };
 
