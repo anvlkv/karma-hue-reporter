@@ -16,7 +16,7 @@ var HueReporter = function (baseReporterDecorator, formatError, config) {
       return;
     }
 
-    var url = `http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/${config.hueReporter.applyTo == 'lights' ? 'state' : 'actions'}`
+    var url = `http://${config.hueReporter.ip}/api/${config.hueReporter.user}/${config.hueReporter.applyTo}/${config.hueReporter.applyToId}/${config.hueReporter.applyTo == 'lights' ? 'state' : 'action'}`
     //0 - red 25500 - green
     var totalTests = results.failed + results.success;
     var successRatio = (results.success / totalTests) * 100;

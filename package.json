@@ -1,6 +1,6 @@
 {
   "name": "karma-hue-reporter",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Karma plugin. Change Philips Hue light setting according to tests result.",
   "main": "index.js",
   "scripts": {
